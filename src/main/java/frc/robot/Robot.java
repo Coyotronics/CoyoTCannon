@@ -41,8 +41,8 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
      //WORKS
-     //switch the output on the Double Solenoid using the X and Y buttons on the Xbox Controller
-     //plus kOff to turn DoubleSolenoid off
+     //switch the output on the Double Solenoid using buttons on the Xbox Controller
+     //plus kOff to turn DoubleSolenoid off - doesn't stop air flow
       if (m_controller.getLeftBumper()) {
           m_doubleSolenoid.set(DoubleSolenoid.Value.kForward);
       } 
