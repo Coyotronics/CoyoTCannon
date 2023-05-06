@@ -31,37 +31,28 @@ public class Robot extends TimedRobot {
   Compressor _compressor = new Compressor(0, PneumaticsModuleType.CTREPCM); //0 should be correct for the module
 
   //Declare and initialize Double Solenoid 
+  //6 and 7 are set as the forward and reverse channels
+  //correspond to the ports on the PCM
   private final DoubleSolenoid m_doubleSolenoid =
-      new DoubleSolenoid( PneumaticsModuleType.CTREPCM, 6, 7);
+      new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 6, 7);
 
-  public void teleopInit()
-  {
-    //m_doubleSolenoid.set(DoubleSolenoid.Value.kReverse);
-    //WORKED
-    //turns off the compressor when switched to teleop
-    //_compressor.disable(); // this worked
-
-    //DOESN'T WORK
-    //switch the output on the double solenoid, tested one at a time, nothing happened
-    //m_doubleSolenoid.set(DoubleSolenoid.Value.kOff);
-    //m_doubleSolenoid.set(DoubleSolenoid.Value.kReverse);
-  }
+  public void teleopInit(){}
 
   @Override
   public void teleopPeriodic() {
-     //DOESN'T WORK
+     //WORKS
      //switch the output on the Double Solenoid using the X and Y buttons on the Xbox Controller
-     
+     //plus kOff to turn DoubleSolenoid off
       if (m_controller.getLeftBumper()) {
           m_doubleSolenoid.set(DoubleSolenoid.Value.kForward);
-      } else if (m_controller.getRightBumper()) {
+      } 
+      else if (m_controller.getRightBumper()) {
           m_doubleSolenoid.set(DoubleSolenoid.Value.kReverse);
-      }else if(m_controller.getYButton())
-      {
+      }
+      else if(m_controller.getYButton()){
             m_doubleSolenoid.set(DoubleSolenoid.Value.kOff);
       }
-      else if (m_controller.getXButton())
-      {
+      else if (m_controller.getXButton()){
         m_doubleSolenoid.toggle();
       }
 
