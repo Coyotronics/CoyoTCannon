@@ -32,10 +32,11 @@ public class Robot extends TimedRobot {
 
   //Declare and initialize Double Solenoid 
   private final DoubleSolenoid m_doubleSolenoid =
-      new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 1, 2);
+      new DoubleSolenoid( PneumaticsModuleType.CTREPCM, 6, 7);
 
   public void teleopInit()
   {
+    //m_doubleSolenoid.set(DoubleSolenoid.Value.kReverse);
     //WORKED
     //turns off the compressor when switched to teleop
     //_compressor.disable(); // this worked
@@ -50,10 +51,18 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
      //DOESN'T WORK
      //switch the output on the Double Solenoid using the X and Y buttons on the Xbox Controller
-      if (m_controller.getXButton()) {
+     
+      if (m_controller.getLeftBumper()) {
           m_doubleSolenoid.set(DoubleSolenoid.Value.kForward);
-      } else if (m_controller.getYButton()) {
+      } else if (m_controller.getRightBumper()) {
           m_doubleSolenoid.set(DoubleSolenoid.Value.kReverse);
+      }else if(m_controller.getYButton())
+      {
+            m_doubleSolenoid.set(DoubleSolenoid.Value.kOff);
+      }
+      else if (m_controller.getXButton())
+      {
+        m_doubleSolenoid.toggle();
       }
 
       //WORKS
