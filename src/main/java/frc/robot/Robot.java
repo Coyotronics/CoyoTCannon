@@ -11,6 +11,9 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Compressor;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 //SOLENOIDS EXAMPLE PROJECT
 /**
@@ -27,41 +30,50 @@ import edu.wpi.first.wpilibj.Compressor;
 public class Robot extends TimedRobot {
   private final XboxController m_controller = new XboxController(0);
 
-  //Declare and initialize Compressor
-  Compressor _compressor = new Compressor(0, PneumaticsModuleType.CTREPCM); //0 should be correct for the module
+//   //Declare and initialize Compressor
+//   Compressor _compressor = new Compressor(0, PneumaticsModuleType.CTREPCM); //0 should be correct for the module
 
-  //Declare and initialize Double Solenoid 
-  //6 and 7 are set as the forward and reverse channels
-  //correspond to the ports on the PCM
-  private final DoubleSolenoid m_doubleSolenoid =
-      new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 6, 7);
+//   //Declare and initialize Double Solenoid 
+//   //6 and 7 are set as the forward and reverse channels
+//   //correspond to the ports on the PCM
+//   private final DoubleSolenoid m_doubleSolenoid =
+//       new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 6, 7);
 
-  public void teleopInit(){}
+    private final CANSparkMax cim = new CANSparkMax(47, MotorType.kBrushless);  //47 is the device id
+    private DifferentialDrive m_myRobot = new DifferentialDrive(cim, cim);
+
+  public void teleopInit(){
+    cim.restoreFactoryDefaults();  
+  }
 
   @Override
   public void teleopPeriodic() {
-     //WORKS
-     //switch the output on the Double Solenoid using buttons on the Xbox Controller
-     //plus kOff to turn DoubleSolenoid off - doesn't stop air flow
-      if (m_controller.getLeftBumper()) {
-          m_doubleSolenoid.set(DoubleSolenoid.Value.kForward);
-      } 
-      else if (m_controller.getRightBumper()) {
-          m_doubleSolenoid.set(DoubleSolenoid.Value.kReverse);
-      }
-      else if(m_controller.getYButton()){
-            m_doubleSolenoid.set(DoubleSolenoid.Value.kOff);
-      }
-      else if (m_controller.getXButton()){
-        m_doubleSolenoid.toggle();
-      }
 
-      //WORKS
-      //enable and disable the compressor using the A and B buttons on the Xbox Controller
-      if (m_controller.getAButton()) {
-          _compressor.enableDigital();
-      } else if (m_controller.getBButton()) {
-          _compressor.disable();
-      }
+
+    m_myRobot.tankDrive(m_controller.getRawAxis(0), m_controller.getRawAxis(0));
+
+    //  //WORKS
+    //  //switch the output on the Double Solenoid using buttons on the Xbox Controller
+    //  //plus kOff to turn DoubleSolenoid off - doesn't stop air flow
+    //   if (m_controller.getLeftBumper()) {
+    //       m_doubleSolenoid.set(DoubleSolenoid.Value.kForward);
+    //   } 
+    //   else if (m_controller.getRightBumper()) {
+    //       m_doubleSolenoid.set(DoubleSolenoid.Value.kReverse);
+    //   }
+    //   else if(m_controller.getYButton()){
+    //         m_doubleSolenoid.set(DoubleSolenoid.Value.kOff);
+    //   }
+    //   else if (m_controller.getXButton()){
+    //     m_doubleSolenoid.toggle();
+    //   }
+
+    //   //WORKS
+    //   //enable and disable the compressor using the A and B buttons on the Xbox Controller
+    //   if (m_controller.getAButton()) {
+    //       _compressor.enableDigital();
+    //   } else if (m_controller.getBButton()) {
+    //       _compressor.disable();
+    //   }
   }
 }
