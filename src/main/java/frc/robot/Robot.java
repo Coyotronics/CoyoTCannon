@@ -166,6 +166,7 @@ public class Robot extends TimedRobot {
     double horiz = m_controller.getRawAxis(4) * .2;
 
     //if we aren't moving the the bot forwards or back, then we can turn it
+    //Left and Right Motion
     if(vert >= -0.09 && vert <= 0.09)
     {
       Vspx1.set(ControlMode.PercentOutput, horiz);//left
@@ -175,6 +176,7 @@ public class Robot extends TimedRobot {
     }
 
     //if we aren't turning the bot, we can move it forwards and back
+    //Forward Backward Motion
     else if(horiz >= -0.09 && horiz <= 0.09)
     {
       Vspx1.set(ControlMode.PercentOutput, vert * -1);//left
